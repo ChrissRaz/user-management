@@ -1,0 +1,63 @@
+<div class="mat-elevation-z8">
+
+  <div class="loading-shade" *ngIf="isLoadingResults ">
+    <mat-spinner *ngIf="isLoadingResults"></mat-spinner>
+  </div>
+
+
+  <h1>Liste des utilisateurs</h1>
+  <mat-form-field class="search">
+    <mat-label>Rechercher</mat-label>
+    <input matInput (keyup)="applyFilter($event)" placeholder="Ex. Jean Christian,1">
+  </mat-form-field>
+
+  <table [dataSource]='dataSource' mat-table class="full-width-table" matSort aria-label="Elements">
+    <!-- Id Column -->
+    <ng-container matColumnDef="Id">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Id</th>
+      <td mat-cell *matCellDef="let row">{{row.Id}}</td>
+    </ng-container>
+
+    <!-- Nom Column -->
+    <ng-container matColumnDef="nom">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Nom</th>
+      <td mat-cell *matCellDef="let row">{{row.nom}}</td>
+    </ng-container>
+
+    <!-- Prenom Column -->
+    <ng-container matColumnDef="prenom">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Prénom</th>
+      <td mat-cell *matCellDef="let row">{{row.prenom}}</td>
+    </ng-container>
+
+    <!-- Actions Column -->
+    <ng-container matColumnDef="actions">
+      <th mat-header-cell *matHeaderCellDef>Actions</th>
+
+      <td mat-cell *matCellDef="let row" style="display: inline;">
+
+        <mat-grid-list cols="1" rowHeight="29px">
+
+          <button mat-raised-button mat-icon-button class="edit" matTooltip="Modifier" appStopPropagationOnclick
+            (click)="onUpdate(row)">
+            <mat-icon class="edit-icon " aria-label="create icon">create</mat-icon>
+          </button>
+
+          <button mat-raised-button mat-icon-button matTooltip="Supprimer" appStopPropagationOnclick
+            (click)="onDelete(row)">
+            <mat-icon class="del-icon " aria-label="delete icon">delete</mat-icon>
+          </button>
+
+        </mat-grid-list>
+
+      </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr class="row-tbl" mat-row *matRowDef="let row; columns: displayedColumns;" (click)='onRowClicked(row)'></tr>
+  </table>
+
+  <mat-paginator #paginator [length]="userNumber" [pageIndex]="actualPage" [pageSize]="pageSize"
+    [pageSizeOptions]="[5, 10, 25, 50, 100, 250]" (page)="pageEvent = getServerData($event)">
+  </mat-paginator>
+</div>

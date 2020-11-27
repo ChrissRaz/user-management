@@ -1,0 +1,48 @@
+<form [formGroup]="userForm" novalidate (ngSubmit)="onSubmit()">
+  <mat-card class="shipping-card">
+    <mat-card-header>
+      <mat-card-title>Informations de l'utilisateur</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+
+      <div class="row">
+        <div class="col">
+          <mat-form-field class="full-width">
+            <input matInput placeholder="Nom" formControlName="nom">
+            <mat-error *ngIf="userForm.controls['nom'].hasError('required')">
+              Le nom est <strong>requis</strong>
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <div class="col">
+          <mat-form-field class="full-width">
+            <input matInput placeholder="Prénom" formControlName="prenom">
+            <mat-error *ngIf="userForm.controls['prenom'].hasError('required')">
+              Le prénom est <strong>requis</strong>
+            </mat-error>
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <mat-form-field class="full-width">
+            <textarea matInput placeholder="Email" formControlName="mail"></textarea>
+            <mat-error *ngIf="userForm.controls['mail'].hasError('required')">
+              Email <strong>est requis</strong>
+            </mat-error>
+          </mat-form-field>
+        </div>
+      </div>
+
+    </mat-card-content>
+    <mat-card-actions>
+      <button [disabled]="!userForm.valid" mat-raised-button color="primary"
+        type="submit">{{isUpdating? 'Modifier':'Ajouter'}}</button>
+
+      <button *ngIf="isUpdating" type="button" mat-raised-button mat-icon-button matTooltip="Faire un ajout"
+        appStopPropagationOnclick (click)="shitchAddMode()">
+        <mat-icon aria-label="refresh icon">refresh</mat-icon>
+      </button>
+    </mat-card-actions>
+  </mat-card>
+</form>
